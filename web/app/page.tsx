@@ -57,26 +57,32 @@ const processSteps = [
 ];
 
 export default function Home() {
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const [statusMsg, setStatusMsg] = useState("");
+
   const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window === "undefined") {
       return "light";
     }
-    const saved = window.localStorage.getItem("theme");
-    return saved === "dark" ? "dark" : "light";
+    return window.localStorage.getItem("theme") === "dark" ? "dark" : "light";
   });
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [statusMsg, setStatusMsg] = useState("");
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
     window.localStorage.setItem("theme", theme);
   }, [theme]);
 
-  const themeLabel = useMemo(() => (theme === "light" ? "Switch to Dark" : "Switch to Light"), [theme]);
+  const themeLabel = useMemo(
+    () => (theme === "light" ? "Switch to Dark" : "Switch to Light"),
+    [theme],
+  );
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    const formEl = event.currentTarget;
+    const formData = new FormData(formEl);
     const payload = {
       name: String(formData.get("name") || ""),
       email: String(formData.get("email") || ""),
@@ -98,10 +104,12 @@ export default function Home() {
       }
       setStatus("success");
       setStatusMsg("Thanks. Our team will reach out shortly.");
-      event.currentTarget.reset();
+      formEl.reset();
     } catch (error) {
       setStatus("error");
-      setStatusMsg(error instanceof Error ? error.message : "Unexpected error.");
+      setStatusMsg(
+        error instanceof Error ? error.message : "Unexpected error.",
+      );
     }
   }
 
@@ -112,14 +120,20 @@ export default function Home() {
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-3">
             <Layers3 className="h-6 w-6" />
-            <span className="text-sm font-semibold tracking-[0.2em] uppercase">CSM Scenarios</span>
+            <span className="text-sm font-semibold tracking-[0.2em] uppercase">
+              CSM Scenarios
+            </span>
           </div>
           <button
             type="button"
             onClick={() => setTheme((t) => (t === "light" ? "dark" : "light"))}
             className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm hover:bg-muted transition"
           >
-            {theme === "light" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+            {theme === "light" ? (
+              <Moon className="h-4 w-4" />
+            ) : (
+              <Sun className="h-4 w-4" />
+            )}
             {themeLabel}
           </button>
         </div>
@@ -135,8 +149,9 @@ export default function Home() {
               Train customer success teams for high-stakes production moments.
             </h1>
             <p className="mt-6 max-w-xl text-muted-foreground">
-              CSM Scenarios simulates incident pressure, tests communication quality, and delivers actionable
-              evaluations across interview, simulation, and real-time support conversation workflows.
+              CSM Scenarios simulates incident pressure, tests communication
+              quality, and delivers actionable evaluations across interview,
+              simulation, and real-time support conversation workflows.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a
@@ -145,14 +160,19 @@ export default function Home() {
               >
                 Book A Demo <ArrowRight className="h-4 w-4" />
               </a>
-              <a href="#capabilities" className="rounded-full border border-border px-5 py-3 hover:bg-muted transition">
+              <a
+                href="#capabilities"
+                className="rounded-full border border-border px-5 py-3 hover:bg-muted transition"
+              >
                 Explore Capabilities
               </a>
             </div>
           </div>
           <div className="pulse-soft rounded-3xl border border-border bg-muted p-8">
             <div className="mb-6 flex items-center justify-between">
-              <span className="text-sm uppercase tracking-[0.14em]">Live Ops Snapshot</span>
+              <span className="text-sm uppercase tracking-[0.14em]">
+                Live Ops Snapshot
+              </span>
               <CheckCircle2 className="h-5 w-5" />
             </div>
             <div className="space-y-4">
@@ -171,7 +191,10 @@ export default function Home() {
           </div>
           <div className="grid gap-5 md:grid-cols-3">
             {highlights.map((item) => (
-              <article key={item.title} className="rounded-2xl border border-border bg-background p-6 transition hover:-translate-y-1">
+              <article
+                key={item.title}
+                className="rounded-2xl border border-border bg-background p-6 transition hover:-translate-y-1"
+              >
                 <item.icon className="mb-4 h-5 w-5" />
                 <h3 className="mb-3 text-lg font-semibold">{item.title}</h3>
                 <p className="text-sm text-muted-foreground">{item.text}</p>
@@ -187,10 +210,15 @@ export default function Home() {
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             {processSteps.map((step) => (
-              <article key={step.step} className="rounded-2xl border border-border bg-muted p-6">
+              <article
+                key={step.step}
+                className="rounded-2xl border border-border bg-muted p-6"
+              >
                 <p className="font-mono text-sm">{step.step}</p>
                 <h3 className="mt-2 text-xl font-semibold">{step.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{step.desc}</p>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {step.desc}
+                </p>
               </article>
             ))}
           </div>
@@ -198,11 +226,17 @@ export default function Home() {
 
         <section id="contact" className="fade-up py-16">
           <div className="rounded-3xl border border-border bg-background p-8 md:p-10">
-            <h2 className="text-2xl font-semibold">Contact The CSM Scenarios Team</h2>
+            <h2 className="text-2xl font-semibold">
+              Contact The CSM Scenarios Team
+            </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Tell us your training goals and we will help design a deployment plan for your organization.
+              Tell us your training goals and we will help design a deployment
+              plan for your organization.
             </p>
-            <form className="mt-8 grid gap-4 md:grid-cols-2" onSubmit={onSubmit}>
+            <form
+              className="mt-8 grid gap-4 md:grid-cols-2"
+              onSubmit={onSubmit}
+            >
               <label className="flex flex-col gap-2 text-sm">
                 Name
                 <input
@@ -241,7 +275,17 @@ export default function Home() {
                 />
               </label>
               <div className="md:col-span-2 flex items-center justify-between gap-4">
-                <p className="text-sm text-muted-foreground">{statusMsg}</p>
+                <p
+                  className={`text-sm ${
+                    status === "success"
+                      ? "text-green-600 dark:text-green-400"
+                      : status === "error"
+                        ? "text-red-600 dark:text-red-400"
+                        : "text-muted-foreground"
+                  }`}
+                >
+                  {statusMsg}
+                </p>
                 <button
                   type="submit"
                   disabled={status === "loading"}
