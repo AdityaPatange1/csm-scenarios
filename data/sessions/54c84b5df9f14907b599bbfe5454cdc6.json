@@ -1,0 +1,66 @@
+{
+  "mode": "interview",
+  "title": "CSM Interview Session",
+  "scenario": {
+    "scenario_id": "scn_10477",
+    "category": "security_compliance",
+    "difficulty": "easy",
+    "topic": "Netflix down debugging",
+    "customer_profile": "Enterprise customer with strict SLA and executive visibility",
+    "issue_summary": "Netflix down debugging affecting critical workflows for customer segment 226.",
+    "expected_outcome": "Issue stabilized and customer confirms acceptable workaround",
+    "constraints": [
+      "Cannot deploy hotfix before change window",
+      "Engineering team available in 30 minutes"
+    ],
+    "tags": [
+      "security_compliance",
+      "netflix_down_debugging",
+      "easy"
+    ]
+  },
+  "messages": [
+    {
+      "role": "interviewer",
+      "content": "Can you describe the specific impact of the Netflix outage on your critical workflows and the potential consequences if the issue persists?",
+      "created_at": "2026-04-30T12:03:49.377873+00:00"
+    },
+    {
+      "role": "user",
+      "content": "The specific impact of the Netflix outage is that customers will not be able to view their favourite video series and TV shows and that will result in a dip in the revenue thus leading to potential risk of not meeting the revenue milestones. If the issue persists, the systems will show degraded state which can lead to failures on the status web page, and potentially reducing stock prices.",
+      "created_at": "2026-04-30T12:03:49.377918+00:00"
+    },
+    {
+      "role": "interviewer",
+      "content": "What troubleshooting steps have already been attempted, and are there any logs or error messages that could help identify the root cause during this interim period?",
+      "created_at": "2026-04-30T12:04:39.458440+00:00"
+    },
+    {
+      "role": "user",
+      "content": "We have already checked the monitoring console and logs, and we see that there are several errors indicating streaming ffailures that are the cause of this outage. The root cause of this is that the infrastructure is in a degraded state due to failed backups and recoveries.",
+      "created_at": "2026-04-30T12:04:39.458481+00:00"
+    },
+    {
+      "role": "interviewer",
+      "content": "How do you prioritize communication with your stakeholders and executives regarding this outage while the engineering team works to resolve the issue within the next 30 minutes?",
+      "created_at": "2026-04-30T12:05:14.260559+00:00"
+    },
+    {
+      "role": "user",
+      "content": "We setup incident calls and communicate to executives that this problem is caused by various problems in the infrastructure. We perform clear communication and show strong intent in terms of resolving the problem.",
+      "created_at": "2026-04-30T12:05:14.260597+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "# Overall Score (/100)\n70/100\n\n# Strengths\n- Clear description of impact on customer experience and revenue implications.\n- Proactive communication with stakeholders through incident calls and status updates.\n- Identification of streaming failures and degraded infrastructure as contributing factors.\n\n# Risks\n- Lack of specific technical details about the root cause, limiting targeted remediation.\n- Absence of immediate containment strategies or workaround implementations.\n- Limited information on how logs and error messages are being analyzed for resolution.\n- Risk of prolonged outage if underlying infrastructure issues are not swiftly addressed.\n\n# Missed Opportunities\n- Implementing and communicating an interim workaround to mitigate customer impact.\n- Detailed troubleshooting steps beyond log checks, such as infrastructure diagnostics.\n- Engaging with technical teams or vendors to expedite recovery.\n- Providing estimated timelines or service level commitments to stakeholders.\n- Exploring alternative content delivery methods or fallback mechanisms.\n\n# Next Actions\n- Confirm if the issue has been stabilized within the expected timeframe and communicate the status.\n- Develop and communicate an acceptable workaround, if possible, to restore partial service.\n- Conduct a comprehensive root cause analysis of the degraded infrastructure and failed backups.\n- Collaborate with your technical teams to prevent recurrence, including backup verification and infrastructure health monitoring.\n- Prepare a post-incident report summarizing causes, resolutions, and prevention measures.\n- Keep all stakeholders updated on progress and resolution status until the outage is fully resolved.",
+      "created_at": "2026-04-30T12:05:18.447067+00:00"
+    }
+  ],
+  "score": null,
+  "metadata": {
+    "llm_health_ok": true,
+    "llm_ping_response": "pong"
+  },
+  "session_id": "54c84b5df9f14907b599bbfe5454cdc6",
+  "created_at": "2026-04-30T12:05:18.447211+00:00"
+}
