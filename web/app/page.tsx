@@ -12,6 +12,7 @@ import {
   Sun,
   Workflow,
 } from "lucide-react";
+import Link from "next/link";
 
 type Theme = "light" | "dark";
 
@@ -62,17 +63,25 @@ export default function Home() {
   >("idle");
   const [statusMsg, setStatusMsg] = useState("");
 
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window === "undefined") {
-      return "light";
-    }
-    return window.localStorage.getItem("theme") === "dark" ? "dark" : "light";
-  });
+  const [theme, setTheme] = useState<Theme>("light");
+  const [themeReady, setThemeReady] = useState(false);
 
   useEffect(() => {
+    const tick = window.setTimeout(() => {
+      const savedTheme = window.localStorage.getItem("theme");
+      setTheme(savedTheme === "dark" ? "dark" : "light");
+      setThemeReady(true);
+    }, 0);
+    return () => window.clearTimeout(tick);
+  }, []);
+
+  useEffect(() => {
+    if (!themeReady) {
+      return;
+    }
     document.documentElement.setAttribute("data-theme", theme);
     window.localStorage.setItem("theme", theme);
-  }, [theme]);
+  }, [theme, themeReady]);
 
   const themeLabel = useMemo(
     () => (theme === "light" ? "Switch to Dark" : "Switch to Light"),
@@ -124,18 +133,26 @@ export default function Home() {
               CSM Scenarios
             </span>
           </div>
-          <button
-            type="button"
-            onClick={() => setTheme((t) => (t === "light" ? "dark" : "light"))}
-            className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm hover:bg-muted transition"
-          >
-            {theme === "light" ? (
-              <Moon className="h-4 w-4" />
-            ) : (
-              <Sun className="h-4 w-4" />
-            )}
-            {themeLabel}
-          </button>
+          <div className="flex items-center gap-2">
+            <Link href="/login" className="rounded-full border border-border px-4 py-2 text-sm hover:bg-muted transition">
+              Login
+            </Link>
+            <Link href="/dashboard" className="rounded-full border border-border px-4 py-2 text-sm hover:bg-muted transition">
+              Dashboard
+            </Link>
+            <button
+              type="button"
+              onClick={() => setTheme((t) => (t === "light" ? "dark" : "light"))}
+              className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm hover:bg-muted transition"
+            >
+              {theme === "light" ? (
+                <Moon className="h-4 w-4" />
+              ) : (
+                <Sun className="h-4 w-4" />
+              )}
+              {themeLabel}
+            </button>
+          </div>
         </div>
       </header>
 
